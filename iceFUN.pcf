@@ -8,6 +8,6 @@ set_io --warn-no-port led6   A4
 set_io --warn-no-port led7   C4
 set_io --warn-no-port lcol0  A12
 set_io --warn-no-port lcol1  D10
-set_io --warn-no-port lcol2  C5
-set_io --warn-no-port lcol3  A6
+set_io --warn-no-port lcol2  A6
+set_io --warn-no-port lcol3  C5
 set_io --warn-no-port clk    P7
