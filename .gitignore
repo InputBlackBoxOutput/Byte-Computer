@@ -1,0 +1,14 @@
+/ignore
+
+*.asc
+*.bin
+*blif
+*.json
+
+*.vvp
+dump.vcd
+synth.ys
+synth.v
+*.blif
+*.dot
+*.dot.pid
