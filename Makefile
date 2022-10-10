@@ -1,4 +1,4 @@
-DESIGN=blinky
+DESIGN=counter
 DESIGNS_DIRECTORY=designs
 TIME=$$(date +'%Y%m%d-%H%M%S')
 

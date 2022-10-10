@@ -1,6 +1,5 @@
-`timescale 10ns/1ps
-`include "design.v"
-
+`timescale 1ns/1ps
+`include "designs/blinky.v"
 
 module testbench;
 
@@ -8,7 +7,7 @@ module testbench;
     wire led0, led1, led2, led3, led4, led5, led6, led7;
     wire lcol0, lcol1, lcol2, lcol3;
 
-    top t(
+    blinky b(
         .clk(clk),
 
         .led0(led0),
@@ -30,7 +29,7 @@ module testbench;
 
     initial begin
         $dumpfile("dump.vcd");
-        $dumpvars(0, t);    
+        $dumpvars(0, b);    
     end
 
     initial begin
