@@ -1,4 +1,6 @@
-TIME = $$(date +'%Y%m%d-%H%M%S')
+DESIGN=blinky
+DESIGNS_DIRECTORY=designs
+TIME=$$(date +'%Y%m%d-%H%M%S')
 
 .PHONY: all clean burn
 
@@ -10,7 +12,7 @@ all: clean
 
 burn: clean
 	# Synthesize using Yosys
-	yosys -p "synth_ice40 -top top -json yosys-opt.json" design.v
+	yosys -p "synth_ice40 -top ${DESIGN} -json yosys-opt.json" ${DESIGNS_DIRECTORY}/${DESIGN}.v
 	
 	# Place and route using nextpnr
 	nextpnr-ice40 -r --hx8k --json yosys-opt.json --package cb132 --asc nextpnr-opt.asc --opt-timing --pcf iceFUN.pcf
@@ -21,14 +23,14 @@ burn: clean
 	sudo iceFUNprog design.bin
 
 sim: clean
-	iverilog -o  design_tb.vvp  design_tb.v
-	/usr/bin/vvp  design_tb.vvp
+	iverilog -o  ${DESIGN}_tb.vvp  ${DESIGNS_DIRECTORY}/${DESIGN}_tb.v
+	/usr/bin/vvp  ${DESIGN}_tb.vvp
 	gtkwave dump.vcd
 
 synth: clean
 	touch synth.ys
-	echo "read_verilog design.v" > synth.ys
-	echo "hierarchy -top top" >> synth.ys
+	echo "read_verilog ${DESIGNS_DIRECTORY}/${DESIGN}.v" > synth.ys
+	echo "hierarchy -top ${DESIGN}" >> synth.ys
 	echo "proc; opt; techmap; opt" >> synth.ys
 	echo "write_verilog synth.v" >> synth.ys
 	echo "show -prefix design -colors $(TIME)" >> synth.ys
