@@ -12,3 +12,5 @@ synth.v
 *.blif
 *.dot
 *.dot.pid
+
+*.exe
