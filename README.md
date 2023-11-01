@@ -4,7 +4,7 @@
 Byte computer is an in-order, no register file, no-cache, non-pipelined and no branch predictor implementation of an 8-bit Turing complete computer thus making it extremely simple and small enough for TinyTapeout.
 
 ## How it works?
-The computer fetches instruction at the address in program counter which has an initial value of zero. The instruction is decoded and executed followed by setting appropriate condition flags. The program counter is incremented and the fetch -> decode -> execute process repeats untils halt instruction.
+The computer fetches instruction at the address in the program counter which has an initial value of zero. The instruction is decoded and then executed followed by setting appropriate condition flags. The program counter is incremented and the fetch -> decode -> execute process repeats until a halt instruction is fetched and executed.
 
 ![waveform](images/waveform.png)
 

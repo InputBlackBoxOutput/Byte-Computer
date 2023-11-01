@@ -30,11 +30,10 @@ documentation:
   how_it_works: |
       Byte computer is an in-order, no register file, no-cache, non-pipelined and no branch predictor implementation of an 8-bit Turing complete computer thus making it extremely simple and small enough for TinyTapeout.
 
-      The computer fetches instruction at the address in program counter which has an initial value of zero. 
-      The instruction is decoded and executed followed by setting appropriate condition flags. 
-      The program counter is incremented and the fetch -> decode -> execute process repeats untils halt instruction.
-
-      The Instruction Set Architecture of the computer is available in the README of the project repository.
+      The computer fetches instruction at the address in the program counter which has an initial value of zero. 
+      The instruction is decoded and then executed followed by setting appropriate condition flags. 
+      The program counter is incremented and the fetch -> decode -> execute process repeats until a halt instruction is fetched and executed. 
+      See README in project repository for waveform illustrating the fetch -> decode -> execute process.
 
   # Instructions on how someone could test your project, include things like what buttons do what and how to set the clock if needed
   how_to_test:  |
