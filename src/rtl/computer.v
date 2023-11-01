@@ -43,7 +43,7 @@ module computer(
         state <= next_state;
       end
       else begin
-        state <= 2'b11;
+        state <= 2'b00;
       end
     end
   end

@@ -31,6 +31,6 @@ module tt_um_wrapper_inputblackboxoutput (
     );
   
   
-  assign uio_out = {we, halt, 1'b0, addr};
+  assign uio_out = {we, halt, 1'b1, addr};
 
 endmodule
