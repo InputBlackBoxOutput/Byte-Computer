@@ -22,6 +22,10 @@
 // `define MEMORY       "memory/conditional-jmp.hex"
 // `define MEMORY_CHECK "memory-check/conditional-jmp.hex"
 
+// // Test OR
+// `define MEMORY       "memory/or.hex"
+// `define MEMORY_CHECK "memory-check/or.hex"
+
 // // Test SUB
 // `define MEMORY       "memory/sub.hex"
 // `define MEMORY_CHECK "memory-check/sub.hex"
