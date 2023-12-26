@@ -13,7 +13,6 @@ module computer(
   
   reg [4:0] pc;
   reg [7:0] accumulator; 
-  
   reg [2:0] opcode;
   
   // Shift instruction fields
@@ -50,108 +49,110 @@ module computer(
   
   // State operations: Fetch -> Decode -> Execute
   always @(state) begin
-    we <= 0;
+    we = 0;
     
     case(state)
       // Fetch
       2'b00: begin
-        addr <= pc;
-        pc <= pc + 1;
+        addr = pc;
+        pc = pc + 1;
       
-        next_state <= 2'b01;
+        next_state = 2'b01;
       end
 
       // Decode
       2'b01:  begin 
-        opcode <= idata[7:5];
+        opcode = idata[7:5];
         
         case(idata[7:5])
           // AND
-          3'b000: addr <= idata[4:0];
+          3'b000: addr = idata[4:0];
           // ADD
-          3'b010: addr <= idata[4:0];
+          3'b010: addr = idata[4:0];
           // LD
-          3'b100: addr <= idata[4:0];
+          3'b100: addr = idata[4:0];
           // ST
-          3'b101: addr <= idata[4:0];
+          3'b101: addr = idata[4:0];
           // CMP
-          3'b110: addr <= idata[4:0];
+          3'b110: addr = idata[4:0];
           
           default: begin
-            addr <= addr;
+            addr = addr;
           end
         endcase
         
         // Shift
         case(idata[7:5])
           3'b011: begin
-            shift_l   <= idata[4];
-            shift_a   <= idata[3];
-            shift_amt <= idata[2:0];
+            shift_l   = idata[4];
+            shift_a   = idata[3];
+            shift_amt = idata[2:0];
           end
           
           default: begin
-            shift_l   <= 0;
-            shift_a   <= 0;
-            shift_amt <= 3'b0;
+            shift_l   = 0;
+            shift_a   = 0;
+            shift_amt = 3'b0;
           end
         endcase
         
         // Jump
         case(idata[7:5])
           3'b111: begin
-            jump_n   <= idata[4];
-            jump_p   <= idata[3];
-            jump_amt <= idata[2:0];
+            jump_n   = idata[4];
+            jump_p   = idata[3];
+            jump_amt = idata[2:0];
           end
           
           default: begin
-            jump_n   <= 0;
-            jump_p   <= 0;
-            jump_amt <= 3'b0;
+            jump_n   = 0;
+            jump_p   = 0;
+            jump_amt = 3'b0;
           end
         endcase
-        next_state <= 2'b10;
+        next_state = 2'b10;
       end
 
       // Execute
       2'b10: begin      
         case (opcode)
           // AND
-          3'b000: accumulator <= accumulator & idata;
+          3'b000: accumulator = accumulator & idata;
           
-          3'b001: accumulator <= ~accumulator;
+          // NOT
+          3'b001: accumulator = ~accumulator;
+          
           // ADD
-          3'b010: accumulator <= accumulator + idata;
+          3'b010: accumulator = accumulator + idata;
           
           // SHFT
           3'b011: begin
             case ({shift_l, shift_a})
-              2'b00: accumulator <= accumulator >> shift_amt;
-              2'b01: accumulator <= {accumulator[7], accumulator[6:0] >> shift_amt};
-              2'b10: accumulator <= accumulator << shift_amt;
-              2'b11: accumulator <= accumulator << shift_amt;
+              2'b00: accumulator = accumulator >> shift_amt;
+              2'b01: accumulator = {accumulator[7], accumulator[6:0] >> shift_amt};
+              2'b10: accumulator = accumulator << shift_amt;
+              2'b11: accumulator = accumulator << shift_amt;
             endcase
           end
           
           // LD
-          3'b100: accumulator <= idata;
+          3'b100: accumulator = idata;
             
           // ST
           3'b101: begin
-            we <= 1; 
-            odata <= accumulator;
+            we = 1; 
+            odata = accumulator;
           end
           
           // CMP
           3'b110: begin
             if(accumulator != idata) begin
-                flag_p <= (accumulator > idata)? 1'b1: 1'b0;      
-                flag_n <= (accumulator < idata)? 1'b1: 1'b0;
+                flag_p = (accumulator > idata)? 1'b1: 1'b0;      
+                flag_n = (accumulator < idata)? 1'b1: 1'b0;
             end
             else begin
-                flag_p <= 0;  
-                flag_n <= 0;
+                flag_p = 0;  
+                flag_n = 0;
             end
        
           end
@@ -159,36 +160,36 @@ module computer(
           // JMP
           3'b111: begin
             if({jump_amt, jump_n, jump_p} == 5'b11111) begin
-              halt <= 1;
+              halt = 1;
             end
             else begin
-              halt <= 0;
+              halt = 0;
               
               if((flag_n == jump_n && flag_p == jump_p) || {jump_n, jump_p} == 2'b11) begin 
-                pc <= pc + ({{3{jump_amt[2]}}, jump_amt[1:0]} << 1);
+                pc = pc + ({{3{jump_amt[2]}}, jump_amt[1:0]} << 1);
               end
               else begin
-                pc <= pc;
+                pc = pc;
               end
             end
             
           end
         endcase
         
-        next_state <= 2'b00;
+        next_state = 2'b00;
       end
       
       // Reset
       2'b11: begin
-        pc <= 0;
-        halt <= 0;
-        flag_p <= 0;
-        flag_n <= 0;
+        pc = 0;
+        halt = 0;
+        flag_p = 0;
+        flag_n = 0;
 
-        next_state <= 2'b00;
+        next_state = 2'b00;
       end
 
-      default: next_state <= 2'b00;
+      default: next_state = 2'b00;
     endcase
   end
   
